@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+	<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+	<script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+	<style th:fragment="style" type="text/css">
+		a {
+			color: #005b7f;
+			text-decoration: none;
+			font-weight:bold;
+		}
+	</style>
+</head>
+<body>
+    <div th:fragment="header" style="background-color: #efefef">
+		<a href="/balances">balances</a> <a href="/trades">trades</a> <a href="/tickers">tickers</a>
+    </div>
+</body>
+</html>

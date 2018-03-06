@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+	<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+	<script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/webjars/chartjs/2.7.0/Chart.min.js"></script>
+	<script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+	<style th:replace="header :: style"></style>
+</head>
+<body>
+	<div th:replace="header :: header"></div>
+		<div style="width: 400px">
+	<canvas id="myChart" width="200" height="200"></canvas>
+	<script>
+	$.get("/graph/tickers", function(tickers) {
+		var ctx = document.getElementById("myChart").getContext('2d');
+		var myChart = new Chart(ctx, {
+		    type: 'line',
+		    data: {
+		        labels: tickers.labels,
+		        datasets: [{
+		            label: 'Tickers with 24h gains over time',
+		            data: tickers.data,
+		            backgroundColor: [
+		                /* 'rgba(255, 99, 132, 0.2)', */
+		                'rgba(54, 162, 235, 0.2)',
+		                'rgba(255, 206, 86, 0.2)',
+		                'rgba(75, 192, 192, 0.2)',
+		                'rgba(153, 102, 255, 0.2)',
+		                'rgba(255, 159, 64, 0.2)'
+		            ],
+		            borderColor: [
+		                'rgba(255,99,132,1)',
+		                'rgba(54, 162, 235, 1)',
+		                'rgba(255, 206, 86, 1)',
+		                'rgba(75, 192, 192, 1)',
+		                'rgba(153, 102, 255, 1)',
+		                'rgba(255, 159, 64, 1)'
+		            ],
+		            borderWidth: 1
+		        }]
+		    },
+		    options: {
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:false
+		                }
+		            }]
+		        }
+		    }
+		});
+	});
+	</script>
+	<div style="width: 600px">
+		<table class="table table-striped table-bordered table-hover table-condensed">
+			<tr>
+				<th>TIMESTAMP</th>
+				<th>SYMBOL</th>
+				<th>PRICEBTC</th>
+				<th>VOLUME</th>
+				<th>24h PERCENT CHANGE</th>
+			</tr>
+	        <tr th:each="ticker,iterStat : ${tickerGroup.tickers}" th:class="${ticker.dayPercentChange > 0.0} ? 'success' : 'danger'">
+	        		<td th:text="${ticker.timestamp}">keyvalue</td>
+	            <td th:text="${ticker.currency.symbol}">keyvalue</td>
+	            <td th:text="${#numbers.formatDecimal(ticker.priceBTC, 1, 8)}">keyvalue</td>
+	            <td th:text="${#numbers.formatDecimal(ticker.dailyVolume, 1, 8)}">keyvalue</td>
+	            <td th:text="${#numbers.formatDecimal(ticker.dayPercentChange, 1, 8)}">keyvalue</td>
+	        </tr>
+		</table>
+	</div>
+	</div>
+</body>
+</html>
